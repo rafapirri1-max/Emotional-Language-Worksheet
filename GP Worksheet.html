@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emotional Language Worksheet App</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #d1d5db;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --soft: #eff6ff;
+      --danger: #b91c1c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    header {
+      background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+      color: white;
+      padding: 28px 18px;
+      text-align: center;
+    }
+    header h1 { margin: 0 0 6px; font-size: 2rem; }
+    header p { margin: 0; opacity: 0.95; }
+    main { max-width: 980px; margin: 24px auto; padding: 0 16px 50px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 18px rgba(15,23,42,0.06);
+    }
+    h2 { margin-top: 0; font-size: 1.35rem; color: #111827; }
+    h3 { margin-bottom: 8px; }
+    .instructions {
+      background: var(--soft);
+      border-left: 5px solid var(--primary);
+      padding: 12px 14px;
+      border-radius: 10px;
+      margin: 12px 0;
+    }
+    label { display: block; font-weight: 600; margin: 12px 0 6px; }
+    input[type="text"], input[type="date"], textarea, select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 1rem;
+      background: white;
+    }
+    textarea { min-height: 76px; resize: vertical; }
+    .student-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .q { padding: 12px; border: 1px solid #e5e7eb; border-radius: 12px; margin: 10px 0; background: #fafafa; }
+    .radio-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px; }
+    .radio-row label { margin: 0; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .table-like { display: grid; gap: 10px; }
+    .table-row { display: grid; grid-template-columns: 1fr 1.4fr; gap: 10px; align-items: start; }
+    .reading {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 12px;
+      padding: 14px;
+      font-style: italic;
+    }
+    button {
+      border: none;
+      background: var(--primary);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    button:hover { background: var(--primary-dark); }
+    button.secondary { background: #374151; }
+    button.secondary:hover { background: #111827; }
+    button.clear { background: var(--danger); }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .notice { color: var(--muted); font-size: 0.95rem; }
+    .success { display:none; background:#ecfdf5; border:1px solid #86efac; color:#065f46; padding:12px; border-radius:12px; margin-top:12px; }
+    .required { color: var(--danger); }
+    footer { text-align:center; color:var(--muted); padding:20px; }
+    @media (max-width: 760px) {
+      .student-grid, .two-col, .table-row { grid-template-columns: 1fr; }
+      header h1 { font-size: 1.55rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Emotional Language Worksheet</h1>
+    <p>Year 8 Global Perspectives / English Skills</p>
+  </header>
+  <main>
+    <form id="worksheetForm">
+      <section class="card">
+        <h2>Student Details</h2>
+        <div class="student-grid">
+          <div><label>Name <span class="required">*</span></label><input required type="text" name="student_name" /></div>
+          <div><label>Class <span class="required">*</span></label><input required type="text" name="student_class" /></div>
+          <div><label>Date</label><input type="date" name="date" /></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>What Is Emotional Language?</h2>
+        <p>Emotional language is language used to make people feel strong emotions such as happiness, fear, anger, sadness, excitement, or sympathy.</p>
+        <p>Instead of only giving facts, emotional language tries to create feelings.</p>
+        <div class="instructions">
+          Fact: “The storm damaged several houses.”<br />
+          Emotional language: “The terrifying storm destroyed families’ homes and left children crying in fear.”
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Activity 1 – Spot the Emotional Language</h2>
+        <p class="instructions">Write the emotional words or phrases from each sentence.</p>
+        <div id="activity1"></div>
+      </section>
+
+      <section class="card">
+        <h2>Activity 2 – Match the Emotion</h2>
+        <p class="instructions">Choose the emotion mainly created by each sentence.</p>
+        <div id="activity2"></div>
+      </section>
+
+      <section class="card">
+        <h2>Activity 3 – Fact or Emotional Language?</h2>
+        <p class="instructions">Choose F for Fact or E for Emotional Language.</p>
+        <div id="activity3"></div>
+      </section>
+
+      <section class="card">
+        <h2>Activity 4 – Improve the Sentences</h2>
+        <p class="instructions">Rewrite each sentence by adding emotional language.</p>
+        <div id="activity4"></div>
+      </section>
+
+      <section class="card">
+        <h2>Activity 5 – Replace the Weak Words</h2>
+        <p class="instructions">Replace each simple word with a stronger emotional word.</p>
+        <div class="table-like" id="activity5"></div>
+      </section>
+
+      <section class="card">
+        <h2>Activity 6 – Which Sentence Is More Emotional?</h2>
+        <p class="instructions">Choose the sentence that uses stronger emotional language.</p>
+        <div id="activity6"></div>
+      </section>
+
+      <section class="card">
+        <h2>Activity 7 – Create Your Own Emotional Language</h2>
+        <p class="instructions">Write one emotional sentence for each situation.</p>
+        <div id="activity7"></div>
+      </section>
+
+      <section class="card">
+        <h2>Reading Practice</h2>
+        <div class="reading">“Families across the village faced a terrifying night as powerful floods rushed through their homes. Children cried while exhausted rescue workers struggled to save trapped residents. Many people lost everything they owned in the heartbreaking disaster.”</div>
+      </section>
+
+      <section class="card">
+        <h2>Activity 8 – Analyse the Text</h2>
+        <label>1a. Example of emotional language</label><input type="text" name="a8_1a" />
+        <label>1b. Example of emotional language</label><input type="text" name="a8_1b" />
+        <label>1c. Example of emotional language</label><input type="text" name="a8_1c" />
+        <label>2. What emotions does the text try to create?</label><textarea name="a8_2"></textarea>
+        <label>3. Why might the writer use emotional language in this text?</label><textarea name="a8_3"></textarea>
+      </section>
+
+      <section class="card">
+        <h2>Activity 9 – Neutral vs Emotional</h2>
+        <p class="instructions">Rewrite the emotional sentences to make them more neutral and factual.</p>
+        <div id="activity9"></div>
+      </section>
+
+      <section class="card">
+        <h2>Activity 10 – Emotional Language in Advertising</h2>
+        <p class="instructions">Create emotional advertising sentences for these products.</p>
+        <div id="activity10"></div>
+      </section>
+
+      <section class="card">
+        <h2>Activity 11 – Write Your Own Paragraph</h2>
+        <label>Choose one topic</label>
+        <select name="a11_topic">
+          <option value="">Choose...</option>
+          <option>A natural disaster</option>
+          <option>Winning an important match</option>
+          <option>A lost animal</option>
+          <option>Helping people in need</option>
+          <option>A dangerous adventure</option>
+        </select>
+        <label>Your paragraph, 5–6 sentences</label><textarea name="a11_paragraph" style="min-height:150px"></textarea>
+      </section>
+
+      <section class="card">
+        <h2>Reflection</h2>
+        <label>1. Why is emotional language powerful?</label><textarea name="reflection_1"></textarea>
+        <label>2. Why is it important to recognise emotional language in news and social media?</label><textarea name="reflection_2"></textarea>
+        <label>3. When can emotional language be useful?</label><textarea name="reflection_3"></textarea>
+      </section>
+
+      <section class="card">
+        <h2>Submit Your Work</h2>
+        <p class="notice">When students click submit, the app downloads a CSV file with all answers. They can upload that file to Google Classroom, email it, or save it on a shared folder.</p>
+        <div class="actions">
+          <button type="submit">Submit and Download CSV</button>
+          <button type="button" class="secondary" onclick="downloadJSON()">Download JSON Backup</button>
+          <button type="button" class="clear" onclick="clearForm()">Clear Form</button>
+        </div>
+        <div id="success" class="success">Submission file created. Please upload the downloaded CSV file as instructed by your teacher.</div>
+      </section>
+    </form>
+  </main>
+  <footer>Offline classroom app. No internet account required.</footer>
+
+<script>
+const A1 = [
+  'The poor animals were trapped in horrible conditions.',
+  'The brave firefighters rushed into the burning building.',
+  'Thousands of innocent people suffered during the war.',
+  'The exciting event attracted huge crowds from across the city.',
+  'The cruel decision upset many families.',
+  'The terrified passengers screamed for help.',
+  'The inspirational athlete never gave up despite many injuries.',
+  'The dangerous roads put children at serious risk.'
+];
+const A2 = [
+  'The helpless puppy was abandoned in the rain.',
+  'The thrilling roller coaster moved at incredible speed.',
+  'The furious crowd demanded justice.',
+  'The terrifying fire spread through the town.'
+];
+const emotions = ['Excitement','Sadness','Fear','Anger'];
+const A3 = [
+  'The heartbreaking flood destroyed many homes.',
+  'The flood affected 200 houses.',
+  'The cruel attack shocked the country.',
+  'The attack happened on Friday morning.',
+  'The exhausted workers finally returned home.',
+  'The workers completed their shift at 6 p.m.',
+  'The inspiring speech motivated the audience.',
+  'The speech lasted 30 minutes.'
+];
+const A4 = ['The family lost their house.','The students worked hard.','The storm arrived quickly.','The child was scared.','The team won the match.'];
+const A5 = ['sad','bad','scared','good','angry','happy','dangerous','tired'];
+const A6 = [
+  ['The town was damaged by the storm.','The violent storm destroyed the terrified town.'],
+  ['The children were hungry.','The starving children begged for food.'],
+  ['The speech was good.','The inspiring speech moved the entire audience.'],
+  ['The road is unsafe.','The deadly road puts lives at risk every day.']
+];
+const A7 = [
+  ['A lost pet','Sadness'], ['Winning a competition','Happiness'], ['A dangerous storm','Fear'], ['An unfair rule','Anger'], ['Helping others','Inspiration']
+];
+const A9 = [
+  'The terrified villagers ran from the deadly fire.',
+  'The heartbreaking accident shocked the community.',
+  'The exhausted workers suffered in terrible conditions.',
+  'The furious crowd shouted at the leaders.'
+];
+const A10 = ['A sports drink','A new video game','A restaurant','A school event'];
+
+function el(tag, html, attrs={}) {
+  const node = document.createElement(tag);
+  node.innerHTML = html;
+  Object.entries(attrs).forEach(([k,v]) => node.setAttribute(k,v));
+  return node;
+}
+function makeTextQuestions(containerId, items, prefix, promptText='Answer') {
+  const c = document.getElementById(containerId);
+  items.forEach((item, i) => {
+    const div = el('div', `<p>${i+1}. ${item}</p><label>${promptText}</label><textarea name="${prefix}_${i+1}"></textarea>`, {class:'q'});
+    c.appendChild(div);
+  });
+}
+function makeRadioQuestions(containerId, items, prefix, options) {
+  const c = document.getElementById(containerId);
+  items.forEach((item, i) => {
+    const div = el('div', `<p>${i+1}. ${item}</p>`, {class:'q'});
+    const row = el('div','',{class:'radio-row'});
+    options.forEach(opt => {
+      const label = el('label', `<input type="radio" name="${prefix}_${i+1}" value="${opt}"> ${opt}`);
+      row.appendChild(label);
+    });
+    div.appendChild(row); c.appendChild(div);
+  });
+}
+function makeTwoOptionQuestions(containerId, items, prefix) {
+  const c = document.getElementById(containerId);
+  items.forEach((pair, i) => {
+    const div = el('div', `<p>${i+1}.</p>`, {class:'q'});
+    const row = el('div','',{class:'radio-row'});
+    ['a','b'].forEach((letter, idx) => {
+      const label = el('label', `<input type="radio" name="${prefix}_${i+1}" value="${letter}) ${pair[idx]}"> ${letter}) ${pair[idx]}`);
+      row.appendChild(label);
+    });
+    div.appendChild(row); c.appendChild(div);
+  });
+}
+function makeTableRows(containerId, items, prefix) {
+  const c = document.getElementById(containerId);
+  items.forEach((word,i) => {
+    const row = el('div', `<div><strong>${word}</strong></div><div><input type="text" name="${prefix}_${i+1}" placeholder="Stronger emotional word"></div>`, {class:'table-row'});
+    c.appendChild(row);
+  });
+}
+function makeActivity7() {
+  const c = document.getElementById('activity7');
+  A7.forEach((row,i)=>{
+    const div = el('div', `<p>${i+1}. Situation: ${row[0]} | Emotion: ${row[1]}</p><label>Emotional sentence</label><textarea name="a7_${i+1}"></textarea>`, {class:'q'});
+    c.appendChild(div);
+  });
+}
+makeTextQuestions('activity1', A1, 'a1', 'Emotional words or phrases');
+makeRadioQuestions('activity2', A2, 'a2', emotions);
+makeRadioQuestions('activity3', A3, 'a3', ['F - Fact','E - Emotional Language']);
+makeTextQuestions('activity4', A4, 'a4', 'Improved emotional sentence');
+makeTableRows('activity5', A5, 'a5');
+makeTwoOptionQuestions('activity6', A6, 'a6');
+makeActivity7();
+makeTextQuestions('activity9', A9, 'a9', 'Neutral and factual version');
+makeTextQuestions('activity10', A10, 'a10', 'Advertising sentence');
+
+function getFormData() {
+  const form = document.getElementById('worksheetForm');
+  const data = {};
+  const fd = new FormData(form);
+  for (const [key, value] of fd.entries()) data[key] = value;
+  data.submitted_at = new Date().toISOString();
+  return data;
+}
+function safeFileName(text) {
+  return (text || 'student').trim().replace(/[^a-z0-9_-]+/gi, '_').replace(/^_+|_+$/g, '') || 'student';
+}
+function csvEscape(value) {
+  const s = String(value ?? '');
+  return '"' + s.replace(/"/g, '""').replace(/\r?\n/g, ' ') + '"';
+}
+function downloadFile(filename, content, type) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function downloadCSV(data) {
+  const headers = Object.keys(data);
+  const values = headers.map(h => csvEscape(data[h]));
+  const csv = headers.map(csvEscape).join(',') + '\n' + values.join(',');
+  const filename = `${safeFileName(data.student_class)}_${safeFileName(data.student_name)}_emotional_language.csv`;
+  downloadFile(filename, csv, 'text/csv;charset=utf-8;');
+}
+function downloadJSON() {
+  const data = getFormData();
+  localStorage.setItem('emotional_language_last_submission', JSON.stringify(data));
+  const filename = `${safeFileName(data.student_class)}_${safeFileName(data.student_name)}_emotional_language.json`;
+  downloadFile(filename, JSON.stringify(data, null, 2), 'application/json;charset=utf-8;');
+  document.getElementById('success').style.display = 'block';
+}
+document.getElementById('worksheetForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  if (!this.reportValidity()) return;
+  const data = getFormData();
+  localStorage.setItem('emotional_language_last_submission', JSON.stringify(data));
+  downloadCSV(data);
+  document.getElementById('success').style.display = 'block';
+});
+function clearForm() {
+  if (confirm('Clear all answers from this form?')) {
+    document.getElementById('worksheetForm').reset();
+    localStorage.removeItem('emotional_language_last_submission');
+    document.getElementById('success').style.display = 'none';
+  }
+}
+// Set today's date if empty
+const dateInput = document.querySelector('input[name="date"]');
+if (dateInput && !dateInput.value) dateInput.valueAsDate = new Date();
+</script>
+</body>
+</html>
